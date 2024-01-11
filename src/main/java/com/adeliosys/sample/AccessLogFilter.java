@@ -1,10 +1,6 @@
 package com.adeliosys.sample;
 
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -50,7 +46,11 @@ public class AccessLogFilter implements Filter {
             // E.g. 200, 404, etc
             int status = response.getStatus();
 
-            LOGGER.info("Served {} '{}' as {} in {} ms", httpMethod, url, status, duration);
+            // Get the current username, then clear the thread local
+            String username = UsernameExtractionFilter.getCurrentUsername();
+            UsernameExtractionFilter.clearCurrentUsername();
+
+            LOGGER.info("Served {} '{}' to '{}' as {} in {} ms", httpMethod, url, username, status, duration);
         }
     }
 }
