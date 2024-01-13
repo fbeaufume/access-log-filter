@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -46,11 +47,13 @@ public class AccessLogFilter implements Filter {
             // E.g. 200, 404, etc
             int status = response.getStatus();
 
-            // Get the current username, then clear the thread local
+            // Not used anymore, but this is how we get the current username, then clear the thread local
             String username = UsernameExtractionFilter.getCurrentUsername();
             UsernameExtractionFilter.clearCurrentUsername();
 
-            LOGGER.info("Served {} '{}' to '{}' as {} in {} ms", httpMethod, url, username, status, duration);
+            LOGGER.info("Served {} '{}' as {} in {} ms", httpMethod, url, status, duration);
+
+            MDC.clear();
         }
     }
 }
