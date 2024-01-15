@@ -1,4 +1,6 @@
-# Access log filter
+# Spring Boot access log filter
+
+This repository is a sample application for my [Spring Boot access log filter](https://www.adeliosys.fr/articles/access-log-filter/) article.
 
 This simple Spring Boot web application shows how to write an HTTP access log filter.
 
